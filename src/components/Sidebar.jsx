@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   return (
@@ -11,29 +12,29 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
     >
       <h2 className="text-2xl font-bold mb-8">Menu</h2>
       <ul>
-        <li
-          className="mb-4 p-2 rounded hover:bg-gray-700 cursor-pointer"
-          onClick={toggleSidebar}
-        >
-          Dashboard
+        
+        <li className="mb-4">
+          <Link to="/dashboard" className="block p-2 rounded hover:bg-gray-700">
+            Dashboard
+          </Link>
         </li>
-        <li
-          className="mb-4 p-2 rounded hover:bg-gray-700 cursor-pointer"
-          onClick={toggleSidebar}
-        >
-          Analytics
+
+        <li className="mb-4">
+          <Link to="/analytics" className="block p-2 rounded hover:bg-gray-700">
+            Analytics
+          </Link>
         </li>
-        <li
-          className="mb-4 p-2 rounded hover:bg-gray-700 cursor-pointer"
-          onClick={toggleSidebar}
-        >
-          Subscription
+
+        <li className="mb-4">
+          <Link to="/subscription" className="block p-2 rounded hover:bg-gray-700">
+            Subscription
+          </Link>
         </li>
-        <li
-          className="mb-4 p-2 rounded hover:bg-gray-700 cursor-pointer"
-          onClick={toggleSidebar}
-        >
-          Settings
+
+        <li className="mb-4">
+          <Link to="/settings" className="block p-2 rounded hover:bg-gray-700">
+            Settings
+          </Link>
         </li>
       </ul>
     </aside>
