@@ -6,6 +6,7 @@ import AnalyticsChart from "../components/AnalyticsChart";
 import SubscriptionCard from "../components/SubscriptionCard";
 import { plans } from "../Data/subscriptionData";
 import { dashboardData } from "../Data/dashboardData";
+import StatCard from "../components/StatCard";
 
 
 const Dashboard = () => {
@@ -38,13 +39,24 @@ const Dashboard = () => {
         {/* Dashboard Content */}
         <div className="p-6 flex-1">
           <h1 className="text-3xl font-bold mb-6">Welcome, {user}</h1>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((item, index) => (
+              <StatCard
+                key={index}
+                title={item.title}
+                value={item.value}
+              />
+            ))}
+          </div>
 
           {/* Analytics Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {stats.map((stat, index) => (
               <Card key={index} title={stat.title} value={stat.value} />
             ))}
-          </div>
+          </div> */}
+
           {/* Charts Section */}
           <div className="mt-10">
             <AnalyticsChart />
