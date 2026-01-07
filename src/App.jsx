@@ -4,16 +4,50 @@ import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
 import Subscription from "./pages/Subscription";
 import Settings from "./pages/Settings";
+import ProtectedRoute from "./components/ProtectedRoute"; // import ProtectedRoute
+import Register from "./pages/Register";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public route */}
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/subscription" element={<Subscription />} />
-        <Route path="/settings" element={<Settings />} />
+          <Route path="/register" element={<Register />} />
+
+        {/* Protected routes */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/analytics" 
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/subscription" 
+          element={
+            <ProtectedRoute>
+              <Subscription />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/settings" 
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </BrowserRouter>
   );

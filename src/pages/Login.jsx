@@ -1,84 +1,78 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-import Input from "../components/Input";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    // Check if fields are empty
+    if (!formData.email || !formData.password) {
+      setError("Enter email and password");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Save token to localStorage
+        localStorage.setItem("token", data.token);
+
+        // Redirect to dashboard
+        navigate("/dashboard");
+      } else {
+        // Show error from backend
+        setError(data.message);
+      }
+    } catch (err) {
+      setError("Server error, try again later");
+    }
   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError("");
-
-//     try {
-//       const response = await axios.post("http://localhost:5000/api/auth/login", formData);
-//       localStorage.setItem("token", response.data.token);
-//       navigate("/dashboard");
-//     } catch (err) {
-//       setError(err.response?.data?.message || "Invalid credentials");
-//     }
-//   };
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-
-  // TEMPORARY: dummy login
-  if (formData.email && formData.password) {
-    localStorage.setItem("token", "demo-token");
-    navigate("/dashboard");
-  } else {
-    setError("Enter credentials");
-  }
-};
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md"
-      >
-        <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
+    <div className="max-w-md mx-auto mt-20 bg-white p-8 rounded shadow">
+      <h1 className="text-2xl font-bold mb-6">Login</h1>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
-        <Input
-          label="Email"
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
           type="email"
-          name="email"
+          placeholder="Email"
           value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter your email"
+          onChange={(e) =>
+            setFormData({ ...formData, email: e.target.value })
+          }
+          className="border p-2 rounded"
         />
 
-        <Input
-          label="Password"
+        <input
           type="password"
-          name="password"
+          placeholder="Password"
           value={formData.password}
-          onChange={handleChange}
-          placeholder="Enter your password"
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+          className="border p-2 rounded"
         />
 
         <button
           type="submit"
-          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors mt-4"
+          className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
         >
           Login
         </button>
-
-        <p className="mt-4 text-center">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500 font-semibold hover:underline">
-            Register
-          </Link>
-        </p>
       </form>
     </div>
   );

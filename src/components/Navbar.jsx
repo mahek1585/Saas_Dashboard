@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const Navbar = ({ toggleSidebar }) => {
   return (
@@ -30,7 +31,8 @@ const Navbar = ({ toggleSidebar }) => {
       <button
         onClick={() => {
           localStorage.removeItem("token");
-          window.location.href = "/";
+          localStorage.removeItem("user");
+          Navigate("/login");
         }}
         className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
       >
